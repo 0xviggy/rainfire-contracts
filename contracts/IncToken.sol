@@ -1,9 +1,11 @@
-pragma solidity ^0.8.0;
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.20;
 
 import "./libs/ERC20.sol";
 
-// LithToken with Governance.
-contract LithToken is ERC20('LITHIUM', 'LITHIUM') {
+// IncToken with Governance.
+contract IncToken is ERC20('INCUM', 'INCUM') {
 
     constructor() {
         _mint(address(0x3a1D1114269d7a786C154FE5278bF5b1e3e20d31), uint256(37500000000000000000000));

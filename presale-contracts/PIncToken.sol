@@ -1,23 +1,25 @@
-pragma solidity ^0.8.0;
+// SPDX-License-Identifier: MIT
 
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 import "../contracts/libs/IERC20.sol";
 import "../contracts/libs/ERC20.sol";
 
-// PLithToken
-contract PLithToken is ERC20('PRE-LITHIUM', 'PLITHIUM'), ReentrancyGuard {
+// PIncToken
+contract PIncToken is ERC20('PRE-INCUM', 'PINCUM'), ReentrancyGuard {
 
     address public constant feeAddress = 0x3a1D1114269d7a786C154FE5278bF5b1e3e20d31;
 
     uint256 public salePriceE35 = 1666 * (10 ** 31);
 
-    uint256 public constant plithMaximumSupply = 30 * (10 ** 3) * (10 ** 18);
+    uint256 public constant pincMaximumSupply = 30 * (10 ** 3) * (10 ** 18);
 
-    // We use a counter to defend against people sending plith back
-    uint256 public plithRemaining = plithMaximumSupply;
+    // We use a counter to defend against people sending pinc back
+    uint256 public pincRemaining = pincMaximumSupply;
 
-    uint256 public constant maxPlithPurchase = 600 * (10 ** 18);
+    uint256 public constant maxPincPurchase = 600 * (10 ** 18);
 
     uint256 oneHourMatic = 1800;
     uint256 oneDayMatic = oneHourMatic * 24;
@@ -26,58 +28,58 @@ contract PLithToken is ERC20('PRE-LITHIUM', 'PLITHIUM'), ReentrancyGuard {
     uint256 public startBlock;
     uint256 public endBlock;
 
-    mapping(address => uint256) public userPlithTally;
+    mapping(address => uint256) public userPincTally;
 
-    event plithPurchased(address sender, uint256 maticSpent, uint256 plithReceived);
+    event pincPurchased(address sender, uint256 maticSpent, uint256 pincReceived);
     event startBlockChanged(uint256 newStartBlock, uint256 newEndBlock);
     event salePriceE35Changed(uint256 newSalePriceE5);
 
     constructor(uint256 _startBlock) {
         startBlock = _startBlock;
         endBlock   = _startBlock + threeDaysMatic;
-        _mint(address(this), plithMaximumSupply);
+        _mint(address(this), pincMaximumSupply);
     }
 
-    function buyPLith() external payable nonReentrant {
+    function buyPInc() external payable nonReentrant {
         require(block.number >= startBlock, "presale hasn't started yet, good things come to those that wait");
         require(block.number < endBlock, "presale has ended, come back next time!");
-        require(plithRemaining > 0, "No more plith remaining! Come back next time!");
-        require(IERC20(address(this)).balanceOf(address(this)) > 0, "No more plith left! Come back next time!");
+        require(pincRemaining > 0, "No more pinc remaining! Come back next time!");
+        require(IERC20(address(this)).balanceOf(address(this)) > 0, "No more pinc left! Come back next time!");
         require(msg.value > 0, "not enough matic provided");
         require(msg.value <= 3e22, "too much matic provided");
-        require(userPlithTally[msg.sender] < maxPlithPurchase, "user has already purchased too much plith");
+        require(userPincTally[msg.sender] < maxPincPurchase, "user has already purchased too much pinc");
 
-        uint256 originalPlithAmount = (msg.value * salePriceE35) / 1e35;
+        uint256 originalPincAmount = (msg.value * salePriceE35) / 1e35;
 
-        uint256 plithPurchaseAmount = originalPlithAmount;
+        uint256 pincPurchaseAmount = originalPincAmount;
 
-        if (plithPurchaseAmount > maxPlithPurchase)
-            plithPurchaseAmount = maxPlithPurchase;
+        if (pincPurchaseAmount > maxPincPurchase)
+            pincPurchaseAmount = maxPincPurchase;
 
-        if ((userPlithTally[msg.sender] + plithPurchaseAmount) > maxPlithPurchase)
-            plithPurchaseAmount = maxPlithPurchase - userPlithTally[msg.sender];
+        if ((userPincTally[msg.sender] + pincPurchaseAmount) > maxPincPurchase)
+            pincPurchaseAmount = maxPincPurchase - userPincTally[msg.sender];
 
         // if we dont have enough left, give them the rest.
-        if (plithRemaining < plithPurchaseAmount)
-            plithPurchaseAmount = plithRemaining;
+        if (pincRemaining < pincPurchaseAmount)
+            pincPurchaseAmount = pincRemaining;
 
-        require(plithPurchaseAmount > 0, "user cannot purchase 0 plith");
+        require(pincPurchaseAmount > 0, "user cannot purchase 0 pinc");
 
         // shouldn't be possible to fail these asserts.
-        assert(plithPurchaseAmount <= plithRemaining);
-        assert(plithPurchaseAmount <= IERC20(address(this)).balanceOf(address(this)));
-        IERC20(address(this)).transfer(msg.sender, plithPurchaseAmount);
-        plithRemaining = plithRemaining - plithPurchaseAmount;
-        userPlithTally[msg.sender] = userPlithTally[msg.sender] + plithPurchaseAmount;
+        assert(pincPurchaseAmount <= pincRemaining);
+        assert(pincPurchaseAmount <= IERC20(address(this)).balanceOf(address(this)));
+        IERC20(address(this)).transfer(msg.sender, pincPurchaseAmount);
+        pincRemaining = pincRemaining - pincPurchaseAmount;
+        userPincTally[msg.sender] = userPincTally[msg.sender] + pincPurchaseAmount;
 
         uint256 maticSpent = msg.value;
         uint256 refundAmount = 0;
-        if (plithPurchaseAmount < originalPlithAmount) {
-            // max plithPurchaseAmount = 6e20, max msg.value approx 3e22 (if 10c matic, worst case).
+        if (pincPurchaseAmount < originalPincAmount) {
+            // max pincPurchaseAmount = 6e20, max msg.value approx 3e22 (if 10c matic, worst case).
             // overfow check: 6e20 * 3e22 * 1e24 = 1.8e67 < type(uint256).max
             // Rounding errors by integer division, reduce magnitude of end result.
             // We accept any rounding error (tiny) as a reduction in PAYMENT, not refund.
-            maticSpent = ((plithPurchaseAmount * msg.value * 1e24) / originalPlithAmount) / 1e24;
+            maticSpent = ((pincPurchaseAmount * msg.value * 1e24) / originalPincAmount) / 1e24;
             refundAmount = msg.value - maticSpent;
         }
         if (maticSpent > 0) {
@@ -89,7 +91,7 @@ contract PLithToken is ERC20('PRE-LITHIUM', 'PLITHIUM'), ReentrancyGuard {
             require(success, "failed to send matic to customer address");
         }
 
-        emit plithPurchased(msg.sender, maticSpent, plithPurchaseAmount);
+        emit pincPurchased(msg.sender, maticSpent, pincPurchaseAmount);
     }
 
     function setStartBlock(uint256 _newStartBlock) external onlyOwner {

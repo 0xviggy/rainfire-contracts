@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Hardhat files
+cache/
+artifacts/
+typechain-types/
+
+# Environment variables
+.env
+.env.local
+
+# Backups and temporary files
+*_backup/
+contracts_backup/
+test_backup/
+
+# Renaming artifacts (historical, not needed in repo)
+rename_script.sh
+RENAMING_COMPLETE.md
+remappings.txt
+
+# IDE and OS files
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build outputs
+dist/
+build/
+out/
+
+# Coverage reports
+coverage/
+coverage.json
+.coverage_cache/
+.coverage_contracts/
+
+# Logs
+*.log
+logs/
+
+# Misc
+.cache/
+*.tsbuildinfo

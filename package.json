@@ -1,0 +1,34 @@
+{
+  "name": "rainfire-contracts",
+  "version": "1.0.0",
+  "description": "contracts for the rainfire farm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RainfireTech/rainfire-contracts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/RainfireTech/rainfire-contracts/issues"
+  },
+  "homepage": "https://github.com/RainfireTech/rainfire-contracts#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-network-helpers": "^1.1.2",
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "@openzeppelin/contracts": "^5.4.0",
+    "@typechain/hardhat": "^9.1.0",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.10.1",
+    "hardhat": "^2.27.0",
+    "ts-node": "^10.9.2",
+    "typechain": "^8.3.2",
+    "typescript": "^5.9.3"
+  }
+}
