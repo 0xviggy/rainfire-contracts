@@ -4,13 +4,17 @@ A DeFi yield farming protocol on Polygon featuring INCUM token emissions through
 
 ## 🌐 Deployed Contracts (Polygon Mainnet)
 
-| Contract | Address | Description |
-|----------|---------|-------------|
-| **IncToken** | [0xfE1a200637464FBC9B60Bc7AeCb9b86c0E1d486E](https://polygonscan.com/address/0xfE1a200637464FBC9B60Bc7AeCb9b86c0E1d486E) | Main governance/reward token |
-| **MasterChefV2** | [0xfcD73006121333C92D770662745146338E419556](https://polygonscan.com/address/0xfcD73006121333C92D770662745146338E419556) | Core staking & rewards contract |
-| **PIncToken** | [0xfD30189bD6de5503bB1db60cf1136123EdEA837A](https://polygonscan.com/address/0xfD30189bD6de5503bB1db60cf1136123EdEA837A) | Presale token |
-| **IncRedeem** | [0xCcA55FAF3BF71dba92694877CB09c577A226aEaF](https://polygonscan.com/address/0xCcA55FAF3BF71dba92694877CB09c577A226aEaF) | Presale redemption contract |
-| **Timelock** | [0x6a8af1dbFdb32dAc39BF8A386c03cC8857a107a8](https://polygonscan.com/address/0x6a8af1dbFdb32dAc39BF8A386c03cC8857a107a8) | Governance timelock |
+> **Note:** These contracts are currently deployed under the original LITH token name. This repository contains a rebrand to INCUM/Rainfire. The deployed addresses are provided as reference for analysis purposes and may be deprecated in future iterations.
+
+| Contract | Address | Description | Original Name |
+|----------|---------|-------------|---------------|
+| **IncToken** | [0xfE1a200637464FBC9B60Bc7AeCb9b86c0E1d486E](https://polygonscan.com/address/0xfE1a200637464FBC9B60Bc7AeCb9b86c0E1d486E) | Main governance/reward token | LithToken |
+| **MasterChefV2** | [0xfcD73006121333C92D770662745146338E419556](https://polygonscan.com/address/0xfcD73006121333C92D770662745146338E419556) | Core staking & rewards contract | MasterChefV2 |
+| **PIncToken** | [0xfD30189bD6de5503bB1db60cf1136123EdEA837A](https://polygonscan.com/address/0xfD30189bD6de5503bB1db60cf1136123EdEA837A) | Presale token | PLithToken |
+| **IncRedeem** | [0xCcA55FAF3BF71dba92694877CB09c577A226aEaF](https://polygonscan.com/address/0xCcA55FAF3BF71dba92694877CB09c577A226aEaF) | Presale redemption contract | LithRedeem |
+| **Timelock** | [0x6a8af1dbFdb32dAc39BF8A386c03cC8857a107a8](https://polygonscan.com/address/0x6a8af1dbFdb32dAc39BF8A386c03cC8857a107a8) | Governance timelock | Timelock |
+
+**⚠️ Legacy Reference Section** - This section documents the original deployment and can be removed when deploying fresh contracts.
 
 ---
 
